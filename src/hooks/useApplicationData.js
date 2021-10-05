@@ -4,6 +4,7 @@ import axios from "axios";
 const SET_DAY = "SET_DAY";
 const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
 const SET_INTERVIEW = "SET_INTERVIEW";
+const SET_SPOTS = "SET_SPOTS";
 
 export default function useApplicationData() {
   const bookInterview = (id, interview) => {
@@ -17,9 +18,16 @@ export default function useApplicationData() {
     };
     return axios.put(`/api/appointments/${id}`, appointment)
       .then(response => {
-        if (response.status === 204) dispatchState({ type: SET_INTERVIEW, appointments });
+        if (response.status === 204) {
+          dispatchState({ type: SET_INTERVIEW, appointments });
+          if (!state.appointments[id].interview) {
+            dispatchState({ type: SET_SPOTS, value: -1 });
+          }
+
+        }
       })
-  }
+  };
+
 
   const cancelInterview = (id) => {
     const appointment = {
@@ -32,9 +40,26 @@ export default function useApplicationData() {
     };
     return axios.delete(`/api/appointments/${id}`, appointment)
       .then(response => {
-        if (response.status === 204) dispatchState({ type: SET_INTERVIEW, appointments });
+        if (response.status === 204) {
+          dispatchState({ type: SET_INTERVIEW, appointments });
+          dispatchState({ type: SET_SPOTS, value: 1 });
+        }
       })
   };
+
+  const NewDays = (days, day) => {
+    return days.map(d => {
+      if (d.name === day.name) return { ...d, spots: day.spots }
+      else return d;
+    });
+  };
+
+  const spots = (state, value) => {
+    const dayObj = state.days.find(day => day.name === state.day);
+    const day = { ...dayObj, spots: dayObj.spots + value };
+    console.log("aaaaaa", { ...state, days: NewDays(state.days, day) })
+    return ({ ...state, days: NewDays(state.days, day) });
+  }
 
   function reducer(state, action) {
     switch (action.type) {
@@ -55,6 +80,8 @@ export default function useApplicationData() {
           ...state,
           appointments: action.appointments
         }
+      case SET_SPOTS:
+        return spots(state, action.value)
       default:
         throw new Error(
           `Tried to reduce with unsupported action type: ${action.type}`
