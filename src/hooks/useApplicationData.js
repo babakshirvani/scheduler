@@ -1,5 +1,9 @@
-import { useState, useEffect } from "react";
+import { useReducer, useEffect } from "react";
 import axios from "axios";
+
+const SET_DAY = "SET_DAY";
+const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
+const SET_INTERVIEW = "SET_INTERVIEW";
 
 export default function useApplicationData() {
   const bookInterview = (id, interview) => {
@@ -13,7 +17,7 @@ export default function useApplicationData() {
     };
     return axios.put(`/api/appointments/${id}`, appointment)
       .then(response => {
-        if (response.status === 204) setState({ ...state, appointments });
+        if (response.status === 204) dispatchState({ type: SET_INTERVIEW, appointments });
       })
   }
 
@@ -28,18 +32,44 @@ export default function useApplicationData() {
     };
     return axios.delete(`/api/appointments/${id}`, appointment)
       .then(response => {
-        if (response.status === 204) setState({ ...state, appointments })
+        if (response.status === 204) dispatchState({ type: SET_INTERVIEW, appointments });
       })
   };
 
-  const [state, setState] = useState({
+  function reducer(state, action) {
+    switch (action.type) {
+      case SET_DAY:
+        return {
+          ...state,
+          day: action.day
+        }
+      case SET_APPLICATION_DATA:
+        return {
+          ...state,
+          days: action.days,
+          appointments: action.appointments,
+          interviewers: action.interviewers
+        }
+      case SET_INTERVIEW:
+        return {
+          ...state,
+          appointments: action.appointments
+        }
+      default:
+        throw new Error(
+          `Tried to reduce with unsupported action type: ${action.type}`
+        );
+    }
+  }
+
+  const [state, dispatchState] = useReducer(reducer, {
     day: "Monday",
     days: [],
     appointments: {},
     interviewer: {}
   });
 
-  const setDay = day => setState({ ...state, day });
+  const setDay = day => dispatchState({ type: SET_DAY, day });
 
   useEffect(() => {
     Promise.all([
@@ -51,7 +81,7 @@ export default function useApplicationData() {
       { data: appointments },
       { data: interviewers }
     ]) => {
-      setState(prev => ({ ...prev, days, appointments, interviewers }));
+      dispatchState({ type: SET_APPLICATION_DATA, days, appointments, interviewers });
     });
   }, []);
 
