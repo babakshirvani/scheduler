@@ -3,11 +3,11 @@ import InterviewerList from "components/InterviewerList";
 import Button from "components/Button";
 
 export default function Form(props) {
-  const [studentName, setStudentName] = useState(props.name || "");
+  const [name, setName] = useState(props.name || "");
   const [interviewer, setInterviewer] = useState(props.value || null);
 
   function reset() {
-    setStudentName("");
+    setName("");
     setInterviewer(null);
   }
 
@@ -25,8 +25,8 @@ export default function Form(props) {
             name="name"
             type="text"
             placeholder="Enter Student Name"
-            onChange={(event) => setStudentName(event.target.value)}
-            value={studentName}
+            onChange={(event) => setName(event.target.value)}
+            value={name}
           />
         </form>
         <InterviewerList
@@ -38,7 +38,7 @@ export default function Form(props) {
       <section className="appointment__card-right">
         <section className="appointment__actions">
           <Button danger onClick={cancel} >Cancel</Button>
-          <Button confirm onClick={(event) => props.onSave(studentName, interviewer)}>Save</Button>
+          <Button confirm onClick={(event) => props.onSave(name, interviewer)}>Save</Button>
         </section>
       </section>
     </main>
