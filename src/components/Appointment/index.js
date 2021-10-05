@@ -8,6 +8,7 @@ import Status from "./Status";
 import useVisualMode from "hooks/useVisualMode";
 
 import "./styles.scss"
+import { transform } from "@babel/core";
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
@@ -15,16 +16,19 @@ const CREATE = "CREATE";
 const SAVING = "SAVING";
 const DELETING = "DELETING";
 const CONFIRM = "CONFIRM";
+const EDIT = "EDIT"
 
 export default function Appointment(props) {
   const save = (name, interviewer) => {
-    const interview = {
-      student: name,
-      interviewer
-    };
-    transition(SAVING);
-    props.bookInterview(props.id, interview)
-      .then(() => transition(SHOW));
+    if (interviewer) {
+      const interview = {
+        student: name,
+        interviewer
+      };
+      transition(SAVING);
+      props.bookInterview(props.id, interview)
+        .then(() => transition(SHOW));
+    }
   };
 
   const cancel = () => {
@@ -47,11 +51,21 @@ export default function Appointment(props) {
           student={props.interview.student}
           interviewer={props.interview.interviewer}
           onDelete={(event) => { transition(CONFIRM) }}
+          onEdit={(event) => { transition(EDIT) }}
         />
       )}
       {mode === CREATE && (
         <Form
           interviewers={props.interviewers}
+          onCancel={back}
+          onSave={save}
+        />)}
+      {mode === EDIT && (
+        <Form
+          name={interview.student}
+          interviewer={interview.interviewer.id}
+          interviewers={props.interviewers}
+          value={interview.interviewer.id}
           onCancel={back}
           onSave={save}
         />)}
