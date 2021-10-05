@@ -7,7 +7,7 @@ import "components/Application.scss";
 
 
 export default function Application(props) {
-  function bookInterview(id, interview) {
+  const bookInterview = (id, interview) => {
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -20,8 +20,22 @@ export default function Application(props) {
       .then(response => {
         if (response.status === 204) setState({ ...state, appointments });
       })
-
   }
+
+  const cancelInterview = (id) => {
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    return axios.delete(`/api/appointments/${id}`, appointment)
+      .then(response => {
+        if (response.status === 204) setState({ ...state, appointments })
+      })
+  };
 
   const [state, setState] = useState({
     day: "Monday",
@@ -58,6 +72,7 @@ export default function Application(props) {
         interview={interview}
         interviewers={interviewers}
         bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       />
     );
   });
