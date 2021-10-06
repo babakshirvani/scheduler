@@ -47,7 +47,7 @@ export default function useApplicationData() {
       })
   };
 
-  const NewDays = (days, day) => {
+  const newDaysObj = (days, day) => {
     return days.map(d => {
       if (d.name === day.name) return { ...d, spots: day.spots }
       else return d;
@@ -57,8 +57,8 @@ export default function useApplicationData() {
   const spots = (state, value) => {
     const dayObj = state.days.find(day => day.name === state.day);
     const day = { ...dayObj, spots: dayObj.spots + value };
-    console.log("aaaaaa", { ...state, days: NewDays(state.days, day) })
-    return ({ ...state, days: NewDays(state.days, day) });
+    console.log("aaaaaa", { ...state, days: newDaysObj(state.days, day) })
+    return ({ ...state, days: newDaysObj(state.days, day) });
   }
 
   function reducer(state, action) {
