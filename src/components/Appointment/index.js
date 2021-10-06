@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "./Header";
 import Show from "./Show";
 import Empty from "./Empty";
@@ -9,7 +9,6 @@ import Status from "./Status";
 import useVisualMode from "hooks/useVisualMode";
 
 import "./styles.scss"
-// import { transform } from "@babel/core";
 
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
@@ -48,11 +47,16 @@ export default function Appointment(props) {
     interview ? SHOW : EMPTY
   );
 
+  useEffect(() => {
+    if (mode === EMPTY && interview) transition(SHOW);
+    if (mode === SHOW && !interview) transition(EMPTY);
+  }, [interview, transition, mode]);
+
   return (
     <article className="appointment">
       <Header time={props.time} />
       {mode === EMPTY && <Empty onAdd={(event) => { transition(CREATE) }} />}
-      {mode === SHOW && (
+      {mode === SHOW && interview && (
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
