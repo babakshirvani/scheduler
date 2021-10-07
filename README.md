@@ -76,7 +76,7 @@ Interview Scheduler is a Full Stack Web App built in `ReactJS` with `Storybook`,
   i. Go to `https://scheduler-bsh.herokuapp.com/api/days` on your browser
   Or ii. `curl https://scheduler-bsh.herokuapp.com/api/days` on your terminal
 
-- Then browse to [Interview Scheduler](scheduler-bsh.netlify.app)
+- Then browse to [Interview Scheduler](https://scheduler-bsh.netlify.app)
 
 ## If you like to try it with the source code on your Local...
 
