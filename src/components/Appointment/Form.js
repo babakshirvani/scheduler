@@ -10,13 +10,15 @@ export default function Form(props) {
   function reset() {
     setName("");
     setInterviewer(null);
-  }
+  };
 
   function cancel() {
     reset();
     props.onCancel();
-  }
+  };
 
+
+  //Validate if Student name feild is empty or not
   function validate() {
     if (name === "") {
       setError("Student name cannot be blank");
@@ -24,7 +26,7 @@ export default function Form(props) {
     }
     setError("");
     props.onSave(name, interviewer);
-  }
+  };
 
   return (
     <main className="appointment__card appointment__card--create">

@@ -22,6 +22,8 @@ const ERROR_DELETE = "ERROR_DELETE";
 
 
 export default function Appointment(props) {
+
+  //Save the appointment/interview
   const save = (name, interviewer) => {
     if (interviewer) {
       const interview = {
@@ -35,6 +37,7 @@ export default function Appointment(props) {
     }
   };
 
+  //Delete/cancel the Appointment
   const destroy = () => {
     transition(DELETING, true);
     props.cancelInterview(props.id)

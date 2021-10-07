@@ -8,14 +8,14 @@ function reducer(state, action) {
       return {
         ...state,
         day: action.day
-      }
+      };
     case SET_APPLICATION_DATA:
       return {
         ...state,
         days: action.days,
         appointments: action.appointments,
         interviewers: action.interviewers
-      }
+      };
     case SET_INTERVIEW:
       const { id, interview } = action.value;
       const appointment = {

@@ -6,7 +6,6 @@ import "components/DayListItem.scss";
 
 export default function DayListItem(props) {
   const { name, spots, selected, setDay } = props;
-
   const dayClass = classnames("day-list__item", {
     "day-list__item--selected": selected,
     "day-list__item--full": !spots
@@ -22,7 +21,7 @@ export default function DayListItem(props) {
     if (spots > 1) {
       return `${spots} spots remaining`;
     }
-  }
+  };
 
   return (
     <li onClick={() => setDay(name)} className={dayClass} data-testid="day" >

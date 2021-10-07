@@ -1,5 +1,4 @@
 
-
 export function getAppointmentsForDay(state, day) {
   const filteredDay = state.days.filter(fday => fday.name === day);
   if (filteredDay !== [] && filteredDay[0] && filteredDay[0].appointments) {
@@ -15,7 +14,7 @@ export function getInterview(state, interview) {
     return {
       student: interview.student,
       interviewer: state.interviewers[interview.interviewer]
-    }
+    };
   }
 }
 

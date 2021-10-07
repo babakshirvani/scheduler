@@ -3,6 +3,7 @@ import axios from "axios";
 import { SET_DAY, SET_APPLICATION_DATA, SET_INTERVIEW, reducer } from "../reducers/application"
 
 export default function useApplicationData() {
+  //Book a new Interview
   const bookInterview = (id, interview) => {
     return axios.put(`/api/appointments/${id}`, { interview })
       .then(response => {
@@ -12,6 +13,7 @@ export default function useApplicationData() {
       })
   };
 
+  //Cancel/delete an existing interview
   const cancelInterview = (id) => {
     return axios.delete(`/api/appointments/${id}`)
       .then(response => {
@@ -28,7 +30,7 @@ export default function useApplicationData() {
     interviewer: {}
   });
 
-  const setDay = day => dispatchState({ type: SET_DAY,  day });
+  const setDay = day => dispatchState({ type: SET_DAY, day });
 
   useEffect(() => {
     let days = axios.get("/api/days");
@@ -45,6 +47,8 @@ export default function useApplicationData() {
     ]) => {
       dispatchState({ type: SET_APPLICATION_DATA, days, appointments, interviewers });
     });
+
+    //Connecting to a WebSocket Server 
     const apiSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
     apiSocket.onopen = (event) => {
       apiSocket.send("ping");
