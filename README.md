@@ -69,23 +69,43 @@ Interview Scheduler is a Full Stack Web App built in `ReactJS` with `Storybook`,
 
 # Getting Started
 
-## Setup
+## If you like to try the app live...
 
-Install dependencies with `npm install`.
+- **The api server was deployed to heroku using the free plan. After thirty minutes of inactivity our server instance will shutdown. Simply make a request by doing one of the following:**
 
-## Running Webpack Development Server
+  i. Go to `https://scheduler-bsh.herokuapp.com/api/days` on your browser
+  Or ii. `curl https://scheduler-bsh.herokuapp.com/api/days` on your terminal
+
+- Then browse to [Interview Scheduler](https://unruffled-northcutt-6cf80d.netlify.app)
+
+## If you like to try it with the source code on your Local...
+
+1. Fork and Clone this repository.
+2. Follow the steps in [Custom API Server](https://github.com/lighthouse-labs/scheduler-api)
+
+### - Setup:
+
+Install dependencies with
+
+```sh
+npm install
+```
+
+### -Running Webpack Development Server:
+
+Run the Webpack Development Server with `npm start`. The app will be served at http://localhost:8000/
 
 ```sh
 npm start
 ```
 
-## Running Jest Test Framework
+### -Running Jest Test Framework
 
 ```sh
 npm test
 ```
 
-## Running Storybook Visual Testbed
+### -Running Storybook Visual Testbed
 
 ```sh
 npm run storybook
